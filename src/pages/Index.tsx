@@ -2,12 +2,58 @@ import { useState, useEffect } from "react";
 import logoFetuccine from "@/assets/logo-fetuccine.png";
 import pastaBackground from "@/assets/pasta-background.jpg";
 import { ExternalLink, MapPin, Instagram, MessageCircle, UtensilsCrossed } from "lucide-react";
+import { toast } from "sonner";
 
 const Index = () => {
   const [hoveredButton, setHoveredButton] = useState<number | null>(null);
 
+  const clientNames = [
+    "Maria Silva", "João Santos", "Ana Costa", "Pedro Oliveira", "Juliana Alves",
+    "Carlos Mendes", "Fernanda Lima", "Ricardo Souza", "Camila Rodrigues", "Bruno Ferreira",
+    "Patrícia Martins", "Lucas Pereira", "Mariana Rocha", "Gabriel Costa", "Amanda Barbosa",
+    "Rafael Dias", "Beatriz Cardoso", "Thiago Araújo", "Larissa Gomes", "Felipe Ribeiro",
+    "Renata Carvalho", "Eduardo Cunha", "Vanessa Monteiro", "Rodrigo Azevedo", "Gabriela Nunes"
+  ];
+
+  const dishes = [
+    "Fettuccine Alfredo", "Lasanha à Bolonhesa", "Ravioli de Queijo", "Carbonara",
+    "Penne ao Molho Pesto", "Nhoque ao Sugo", "Spaghetti à Matriciana", "Rigatoni Quatro Queijos",
+    "Tortellini de Carne", "Tagliatelle ao Funghi", "Pappardelle ao Ragu", "Agnolotti de Ricota",
+    "Fettuccine ao Molho Rosé", "Fusilli Primavera", "Capeletti ao Molho Branco"
+  ];
+
+  const getRandomItem = <T,>(array: T[]): T => {
+    return array[Math.floor(Math.random() * array.length)];
+  };
+
+  const showOrderNotification = () => {
+    const clientName = getRandomItem(clientNames);
+    const dish = getRandomItem(dishes);
+    
+    toast(clientName, {
+      description: `acabou de pedir ${dish}!`,
+      icon: <UtensilsCrossed className="w-5 h-5 text-[#FF6B35]" />,
+      duration: 5500,
+    });
+  };
+
   useEffect(() => {
     document.body.style.fontFamily = "'Roboto', sans-serif";
+    
+    // Primeira notificação após 3-5 segundos
+    const initialDelay = setTimeout(() => {
+      showOrderNotification();
+    }, 3000 + Math.random() * 2000);
+
+    // Notificações subsequentes a cada 20 segundos
+    const interval = setInterval(() => {
+      showOrderNotification();
+    }, 20000);
+
+    return () => {
+      clearTimeout(initialDelay);
+      clearInterval(interval);
+    };
   }, []);
 
   const links = [
