@@ -3,9 +3,11 @@ import logoFetuccine from "@/assets/logo-fetuccine.png";
 import pastaBackground from "@/assets/pasta-background.jpg";
 import { ExternalLink, MapPin, Instagram, MessageCircle, UtensilsCrossed } from "lucide-react";
 import { toast } from "sonner";
+import { GuidedTour, useGuidedTour } from "@/components/GuidedTour";
 
 const Index = () => {
   const [hoveredButton, setHoveredButton] = useState<number | null>(null);
+  const { tourActive, tourStep, skipTour } = useGuidedTour();
 
   const clientNames = [
     "Maria Silva", "João Santos", "Ana Costa", "Pedro Oliveira", "Juliana Alves",
@@ -85,6 +87,12 @@ const Index = () => {
 
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      {/* Guided Tour */}
+      <GuidedTour 
+        isActive={tourActive} 
+        currentStep={tourStep} 
+        onSkip={skipTour}
+      />
       {/* Background Image with Overlay */}
       <div 
         className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat bg-fixed"
@@ -133,7 +141,7 @@ const Index = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.ariaLabel}
-                className="block w-full"
+                className={`block w-full ${tourActive && tourStep < 4 && tourStep !== index ? 'pointer-events-none' : ''}`}
                 onMouseEnter={() => setHoveredButton(index)}
                 onMouseLeave={() => setHoveredButton(null)}
                 onFocus={() => setHoveredButton(index)}
@@ -146,6 +154,7 @@ const Index = () => {
                     text-primary-foreground font-bold text-base md:text-lg
                     transition-all duration-300 ease-out
                     focus:outline-none focus:ring-4 focus:ring-primary/50
+                    ${tourActive && tourStep < 4 && tourStep === index ? 'relative z-50 ring-4 ring-white' : ''}
                     ${hoveredButton === index 
                       ? 'bg-gradient-hover shadow-button-hover scale-105' 
                       : 'bg-gradient-primary shadow-button scale-100'
