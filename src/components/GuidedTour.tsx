@@ -39,7 +39,7 @@ export const GuidedTour = ({ isActive, currentStep, onSkip }: GuidedTourProps) =
     <>
       {/* Overlay Escurecido */}
       <div 
-        className="fixed inset-0 bg-black/70 z-40 animate-fade-in pointer-events-auto"
+        className="fixed inset-0 bg-black/75 z-40 animate-fade-in pointer-events-auto backdrop-blur-[2px]"
         aria-hidden="true"
       />
 
@@ -56,22 +56,22 @@ export const GuidedTour = ({ isActive, currentStep, onSkip }: GuidedTourProps) =
             : undefined
         }
       >
-        <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-sm mx-4 relative">
+        <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-7 max-w-sm mx-4 relative border border-white/50">
           {/* Botão Pular Tour */}
           <button
             onClick={onSkip}
-            className="absolute top-3 right-3 p-1 hover:bg-gray-100 rounded-full transition-colors"
+            className="absolute top-4 right-4 p-2 hover:bg-primary/10 rounded-full transition-all duration-300 hover:scale-110"
             aria-label="Pular tour"
           >
-            <X className="w-5 h-5 text-gray-600" />
+            <X className="w-5 h-5 text-primary" />
           </button>
 
           {/* Conteúdo */}
-          <div className="pr-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
+          <div className="pr-8">
+            <h3 className="font-playfair text-2xl font-bold text-primary mb-3">
               {tourSteps[currentStep].title}
             </h3>
-            <p className="text-gray-700 mb-4">
+            <p className="font-montserrat text-gray-700 mb-5 leading-relaxed">
               {tourSteps[currentStep].description}
             </p>
             

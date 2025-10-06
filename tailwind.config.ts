@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        'playfair': ['Playfair Display', 'serif'],
+        'montserrat': ['Montserrat', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -99,21 +103,54 @@ export default {
             transform: "scale(1)",
             opacity: "1"
           }
+        },
+        "float": {
+          "0%, 100%": {
+            transform: "translateY(0px)"
+          },
+          "50%": {
+            transform: "translateY(-10px)"
+          }
+        },
+        "pulse-ring": {
+          "0%": {
+            boxShadow: "0 0 0 0 hsla(15, 100%, 60%, 0.7)"
+          },
+          "70%": {
+            boxShadow: "0 0 0 10px hsla(15, 100%, 60%, 0)"
+          },
+          "100%": {
+            boxShadow: "0 0 0 0 hsla(15, 100%, 60%, 0)"
+          }
+        },
+        "shimmer": {
+          "0%": {
+            backgroundPosition: "-200% 0"
+          },
+          "100%": {
+            backgroundPosition: "200% 0"
+          }
         }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 0.5s ease-out",
-        "scale-in": "scale-in 0.3s ease-out",
+        "fade-in": "fade-in 0.6s ease-out",
+        "scale-in": "scale-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "float": "float 3s ease-in-out infinite",
+        "pulse-ring": "pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "shimmer": "shimmer 3s linear infinite",
       },
       backgroundImage: {
         'gradient-primary': 'var(--gradient-primary)',
         'gradient-hover': 'var(--gradient-hover)',
+        'gradient-elegant': 'var(--gradient-elegant)',
+        'shimmer-gradient': 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
       },
       boxShadow: {
         'button': 'var(--shadow-button)',
         'button-hover': 'var(--shadow-button-hover)',
+        'glow': 'var(--shadow-glow)',
       },
     },
   },
