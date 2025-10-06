@@ -39,7 +39,7 @@ export const GuidedTour = ({ isActive, currentStep, onSkip }: GuidedTourProps) =
     <>
       {/* Overlay Escurecido */}
       <div 
-        className="fixed inset-0 bg-black/75 z-40 animate-fade-in pointer-events-auto backdrop-blur-[2px]"
+        className="fixed inset-0 bg-black/60 z-40 animate-fade-in pointer-events-auto"
         aria-hidden="true"
       />
 
@@ -52,39 +52,39 @@ export const GuidedTour = ({ isActive, currentStep, onSkip }: GuidedTourProps) =
         }`}
         style={
           !isFinalStep 
-            ? { top: `calc(${280 + currentStep * 88}px + 5rem)` } 
+            ? { top: `calc(${240 + currentStep * 68}px + 4rem)` } 
             : undefined
         }
       >
-        <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-7 max-w-sm mx-4 relative border border-white/50">
+        <div className="bg-white rounded-xl shadow-xl p-5 max-w-sm mx-4 relative">
           {/* Botão Pular Tour */}
           <button
             onClick={onSkip}
-            className="absolute top-4 right-4 p-2 hover:bg-primary/10 rounded-full transition-all duration-300 hover:scale-110"
+            className="absolute top-3 right-3 p-1.5 hover:bg-primary/10 rounded-full transition-all"
             aria-label="Pular tour"
           >
-            <X className="w-5 h-5 text-primary" />
+            <X className="w-4 h-4 text-primary" />
           </button>
 
           {/* Conteúdo */}
           <div className="pr-8">
-            <h3 className="font-playfair text-2xl font-bold text-primary mb-3">
+            <h3 className="font-playfair text-lg font-bold text-primary mb-2">
               {tourSteps[currentStep].title}
             </h3>
-            <p className="font-montserrat text-gray-700 mb-5 leading-relaxed">
+            <p className="font-montserrat text-gray-700 text-sm mb-3">
               {tourSteps[currentStep].description}
             </p>
             
             {/* Indicador de Progresso */}
             {!isFinalStep && (
-              <div className="flex items-center gap-2 justify-center mt-4">
+              <div className="flex items-center gap-1.5 justify-center mt-4">
                 {[0, 1, 2, 3].map((step) => (
                   <div
                     key={step}
-                    className={`h-2 rounded-full transition-all ${
+                    className={`h-1.5 rounded-full transition-all ${
                       step === currentStep 
-                        ? 'w-8 bg-primary' 
-                        : 'w-2 bg-gray-300'
+                        ? 'w-6 bg-primary' 
+                        : 'w-1.5 bg-gray-300'
                     }`}
                   />
                 ))}

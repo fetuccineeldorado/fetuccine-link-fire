@@ -34,8 +34,8 @@ const Index = () => {
     
     toast(clientName, {
       description: `acabou de pedir ${dish}!`,
-      icon: <UtensilsCrossed className="w-5 h-5 text-[#FF6B35]" />,
-      duration: 5500,
+      icon: <UtensilsCrossed className="w-4 h-4 text-[#FF6B35]" />,
+      duration: 4000,
     });
   };
 
@@ -109,35 +109,34 @@ const Index = () => {
       </div>
 
       {/* Content Container */}
-      <section className="relative z-10 w-full max-w-md mx-auto px-4 py-8 flex flex-col items-center justify-center animate-fade-in">
+      <section className="relative z-10 w-full max-w-md mx-auto px-4 py-12 flex flex-col items-center justify-center animate-fade-in">
         {/* Logo */}
-        <header className="mb-8 animate-scale-in">
+        <header className="mb-6">
           <div className="relative">
             <img 
               src={logoFetuccine} 
               alt="Logo Fetuccine Eldorado - A sua casa de massas"
-              className="w-48 md:w-72 h-auto rounded-2xl shadow-glow animate-float"
+              className="w-32 md:w-40 h-auto rounded-2xl"
               loading="eager"
             />
           </div>
         </header>
 
         {/* Title and Description */}
-        <div className="text-center mb-10 space-y-3">
-          <h1 className="font-playfair text-5xl md:text-6xl font-bold text-primary drop-shadow-lg tracking-tight">
+        <div className="text-center mb-6 space-y-2">
+          <h1 className="font-playfair text-3xl md:text-4xl font-bold text-primary drop-shadow-lg tracking-tight">
             Fetuccine Eldorado
           </h1>
-          <p className="font-montserrat text-xl md:text-2xl text-white font-medium drop-shadow-md">
-            Delícias italianas ao seu alcance! Peça agora e saboreie.
+          <p className="font-montserrat text-base md:text-lg text-white font-light drop-shadow-md">
+            Delícias italianas ao seu alcance
           </p>
         </div>
 
         {/* Link Buttons */}
-        <nav className="w-full space-y-5 mb-8" aria-label="Links principais">
+        <nav className="w-full space-y-3 mb-8" aria-label="Links principais">
           {links.map((link, index) => {
             const Icon = link.icon;
             const isHighlighted = tourActive && tourStep < 4 && tourStep === index;
-            const isHovered = hoveredButton === index;
             
             return (
               <a
@@ -149,37 +148,24 @@ const Index = () => {
                 className={`block w-full ${tourActive && tourStep < 4 && tourStep !== index ? 'pointer-events-none' : ''}`}
                 onMouseEnter={() => setHoveredButton(index)}
                 onMouseLeave={() => setHoveredButton(null)}
-                onFocus={() => setHoveredButton(index)}
-                onBlur={() => setHoveredButton(null)}
                 style={{
-                  animation: `fade-in 0.6s ease-out ${index * 0.15}s backwards`
+                  animation: `fade-in 0.6s ease-out ${index * 0.1}s backwards`
                 }}
               >
                 <div
                   className={`
-                    relative overflow-hidden
-                    flex items-center justify-center gap-3
-                    px-8 py-5 rounded-full
-                    font-montserrat text-primary-foreground font-semibold text-base md:text-lg
-                    backdrop-blur-sm
-                    border border-white/20
-                    transition-all duration-500
-                    focus:outline-none focus:ring-4 focus:ring-primary/50
-                    ${isHighlighted ? 'relative z-50 ring-4 ring-white shadow-glow animate-pulse-ring' : ''}
-                    ${isHovered 
-                      ? 'bg-gradient-hover shadow-button-hover scale-105 -translate-y-1' 
-                      : 'bg-gradient-primary shadow-button scale-100 translate-y-0'
-                    }
+                    flex items-center justify-center gap-2
+                    px-6 py-3 rounded-lg
+                    font-montserrat text-white font-medium text-sm md:text-base
+                    bg-white/10
+                    hover:bg-white/20
+                    transition-all duration-200
+                    hover:scale-[1.02]
+                    ${isHighlighted ? 'ring-2 ring-white/50' : ''}
                   `}
                 >
-                  {/* Shimmer effect on hover */}
-                  {isHovered && (
-                    <div className="absolute inset-0 bg-shimmer-gradient bg-[length:200%_100%] animate-shimmer" />
-                  )}
-                  
-                  <Icon className={`w-6 h-6 transition-transform duration-300 ${isHovered ? 'scale-110 rotate-6' : ''}`} aria-hidden="true" />
-                  <span className="relative z-10">{link.text}</span>
-                  <ExternalLink className={`w-4 h-4 ml-auto transition-transform duration-300 ${isHovered ? 'translate-x-1' : ''}`} aria-hidden="true" />
+                  <Icon className="w-4 h-4" aria-hidden="true" />
+                  <span>{link.text}</span>
                 </div>
               </a>
             );
