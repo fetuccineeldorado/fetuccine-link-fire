@@ -7,7 +7,7 @@ import { GuidedTour, useGuidedTour } from "@/components/GuidedTour";
 
 const Index = () => {
   const [hoveredButton, setHoveredButton] = useState<number | null>(null);
-  const { tourActive, tourStep, skipTour } = useGuidedTour();
+  const { tourActive, tourStep, skipTour, timeLeft } = useGuidedTour();
 
   const clientNames = [
     "Maria Silva", "João Santos", "Ana Costa", "Pedro Oliveira", "Juliana Alves",
@@ -92,6 +92,7 @@ const Index = () => {
         isActive={tourActive} 
         currentStep={tourStep} 
         onSkip={skipTour}
+        timeLeft={timeLeft}
       />
       {/* Background Image with Overlay */}
       <div 
@@ -136,7 +137,6 @@ const Index = () => {
         <nav className="w-full space-y-3 mb-8" aria-label="Links principais">
           {links.map((link, index) => {
             const Icon = link.icon;
-            const isHighlighted = tourActive && tourStep < 4 && tourStep === index;
             
             return (
               <a
@@ -145,7 +145,7 @@ const Index = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.ariaLabel}
-                className={`block w-full ${tourActive && tourStep < 4 && tourStep !== index ? 'pointer-events-none' : ''}`}
+                className="block w-full"
                 onMouseEnter={() => setHoveredButton(index)}
                 onMouseLeave={() => setHoveredButton(null)}
                 style={{
@@ -153,7 +153,7 @@ const Index = () => {
                 }}
               >
                 <div
-                  className={`
+                  className="
                     flex items-center justify-center gap-2
                     px-6 py-3 rounded-lg
                     font-montserrat text-white font-medium text-sm md:text-base
@@ -161,8 +161,7 @@ const Index = () => {
                     hover:bg-white/20
                     transition-all duration-200
                     hover:scale-[1.02]
-                    ${isHighlighted ? 'ring-2 ring-white/50' : ''}
-                  `}
+                  "
                 >
                   <Icon className="w-4 h-4" aria-hidden="true" />
                   <span>{link.text}</span>
