@@ -3,11 +3,9 @@ import logoFetuccine from "@/assets/logo-fetuccine.png";
 import pastaBackground from "@/assets/pasta-background.jpg";
 import { ExternalLink, MapPin, Instagram, MessageCircle, UtensilsCrossed } from "lucide-react";
 import { toast } from "sonner";
-import { GuidedTour, useGuidedTour } from "@/components/GuidedTour";
 
 const Index = () => {
   const [hoveredButton, setHoveredButton] = useState<number | null>(null);
-  const { tourActive, tourStep, skipTour, timeLeft } = useGuidedTour();
 
   const clientNames = [
     "Maria Silva", "João Santos", "Ana Costa", "Pedro Oliveira", "Juliana Alves",
@@ -87,13 +85,6 @@ const Index = () => {
 
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      {/* Guided Tour */}
-      <GuidedTour 
-        isActive={tourActive} 
-        currentStep={tourStep} 
-        onSkip={skipTour}
-        timeLeft={timeLeft}
-      />
       {/* Background Image with Overlay */}
       <div 
         className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat bg-fixed"
