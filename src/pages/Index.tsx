@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import logoFetuccine from "@/assets/logo-fetuccine.png";
 import pastaBackground from "@/assets/pasta-background.jpg";
-import { ExternalLink, MapPin, Instagram, MessageCircle, UtensilsCrossed } from "lucide-react";
+import { ExternalLink, MapPin, Instagram, MessageCircle, UtensilsCrossed, Tag } from "lucide-react";
 import { toast } from "sonner";
 
 const Index = () => {
   const [hoveredButton, setHoveredButton] = useState<number | null>(null);
+  const [showCoupon, setShowCoupon] = useState(false);
 
   const clientNames = [
     "Maria Silva", "João Santos", "Ana Costa", "Pedro Oliveira", "Juliana Alves",
@@ -54,6 +55,14 @@ const Index = () => {
       clearTimeout(initialDelay);
       clearInterval(interval);
     };
+  }, []);
+
+  useEffect(() => {
+    const couponTimer = setTimeout(() => {
+      setShowCoupon(true);
+    }, 2000);
+    
+    return () => clearTimeout(couponTimer);
   }, []);
 
   const links = [
@@ -169,6 +178,39 @@ const Index = () => {
           </p>
         </footer>
       </section>
+
+      {/* Floating Coupon Alert */}
+      {showCoupon && (
+        <a
+          href="https://growmoneydigital.com.br/fetuccine/cardapio"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="
+            fixed bottom-4 right-4 md:bottom-6 md:right-6
+            z-50
+            flex items-center gap-2
+            px-4 py-3 md:px-5 md:py-4
+            bg-gradient-to-r from-primary to-secondary
+            rounded-xl
+            shadow-lg hover:shadow-2xl
+            transition-all duration-300
+            hover:scale-105
+            cursor-pointer
+            animate-[slide-in-right_0.5s_ease-out,pulse_2s_ease-in-out_infinite]
+          "
+          aria-label="Cupom de 10% de desconto - Clique para acessar o cardápio"
+        >
+          <Tag className="w-5 h-5 md:w-6 md:h-6 text-white" />
+          <div className="flex flex-col">
+            <span className="text-xs md:text-sm text-white/90 font-montserrat font-medium leading-tight">
+              CUPOM
+            </span>
+            <span className="text-lg md:text-xl text-white font-montserrat font-bold leading-tight">
+              10% OFF!
+            </span>
+          </div>
+        </a>
+      )}
     </main>
   );
 };
