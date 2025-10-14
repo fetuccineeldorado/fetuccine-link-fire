@@ -191,7 +191,7 @@ const Index = () => {
             flex items-center gap-2
             px-4 py-3 md:px-5 md:py-4
             bg-gradient-to-r from-primary to-secondary
-            rounded-xl
+            rounded-full
             shadow-lg hover:shadow-2xl
             transition-all duration-300
             hover:scale-105
