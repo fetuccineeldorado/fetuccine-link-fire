@@ -188,25 +188,25 @@ const Index = () => {
           className="
             fixed bottom-4 right-4 md:bottom-6 md:right-6
             z-50
-            flex items-center gap-2
-            px-4 py-3 md:px-5 md:py-4
-            bg-gradient-to-r from-primary to-secondary
+            flex flex-col items-center justify-center
+            w-20 h-20 md:w-24 md:h-24
+            bg-gradient-to-br from-primary to-secondary
             rounded-full
             shadow-lg hover:shadow-2xl
             transition-all duration-300
-            hover:scale-105
+            hover:scale-110
             cursor-pointer
             animate-[slide-in-right_0.5s_ease-out,pulse_2s_ease-in-out_infinite]
           "
           aria-label="Cupom de 10% de desconto - Clique para acessar o cardápio"
         >
-          <Tag className="w-5 h-5 md:w-6 md:h-6 text-white" />
-          <div className="flex flex-col">
-            <span className="text-xs md:text-sm text-white/90 font-montserrat font-medium leading-tight">
+          <Tag className="w-5 h-5 md:w-6 md:h-6 text-white mb-1" />
+          <div className="flex flex-col items-center">
+            <span className="text-[10px] md:text-xs text-white/90 font-montserrat font-medium leading-tight">
               CUPOM
             </span>
-            <span className="text-lg md:text-xl text-white font-montserrat font-bold leading-tight">
-              10% OFF!
+            <span className="text-sm md:text-base text-white font-montserrat font-bold leading-tight">
+              10% OFF
             </span>
           </div>
         </a>
