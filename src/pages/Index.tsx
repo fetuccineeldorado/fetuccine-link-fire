@@ -211,6 +211,51 @@ const Index = () => {
           {links.map((link, index) => {
             const Icon = link.icon;
             
+            // Definir cores específicas para cada botão
+            const getButtonStyles = (buttonIndex: number) => {
+              const styles = [
+                // Botão 0 - Cardápio (Verde com transparência)
+                {
+                  bg: 'bg-emerald-500/20',
+                  hover: 'hover:bg-emerald-500/30',
+                  active: 'active:bg-emerald-500/40',
+                  border: 'border-emerald-400/30',
+                  shadow: 'shadow-emerald-500/20',
+                  hoverShadow: 'hover:shadow-emerald-500/30'
+                },
+                // Botão 1 - WhatsApp (Verde WhatsApp)
+                {
+                  bg: 'bg-green-500/20',
+                  hover: 'hover:bg-green-500/30',
+                  active: 'active:bg-green-500/40',
+                  border: 'border-green-400/30',
+                  shadow: 'shadow-green-500/20',
+                  hoverShadow: 'hover:shadow-green-500/30'
+                },
+                // Botão 2 - Localização (Azul)
+                {
+                  bg: 'bg-blue-500/20',
+                  hover: 'hover:bg-blue-500/30',
+                  active: 'active:bg-blue-500/40',
+                  border: 'border-blue-400/30',
+                  shadow: 'shadow-blue-500/20',
+                  hoverShadow: 'hover:shadow-blue-500/30'
+                },
+                // Botão 3 - Instagram (Rosa/Instagram)
+                {
+                  bg: 'bg-pink-500/20',
+                  hover: 'hover:bg-pink-500/30',
+                  active: 'active:bg-pink-500/40',
+                  border: 'border-pink-400/30',
+                  shadow: 'shadow-pink-500/20',
+                  hoverShadow: 'hover:shadow-pink-500/30'
+                }
+              ];
+              return styles[buttonIndex] || styles[0];
+            };
+
+            const buttonStyles = getButtonStyles(index);
+            
             return (
               <a
                 key={index}
@@ -226,18 +271,18 @@ const Index = () => {
                 }}
               >
                 <div
-                  className="
+                  className={`
                     flex items-center justify-center gap-3
                     px-4 sm:px-6 py-4 sm:py-3 rounded-xl
                     font-montserrat text-white font-medium text-sm sm:text-base
-                    bg-white/10 backdrop-blur-sm
-                    hover:bg-white/20 active:bg-white/25
+                    ${buttonStyles.bg} backdrop-blur-sm
+                    ${buttonStyles.hover} ${buttonStyles.active}
                     transition-all duration-200
                     hover:scale-[1.02] active:scale-[0.98]
                     touch-manipulation
-                    border border-white/10
-                    shadow-lg hover:shadow-xl
-                  "
+                    border ${buttonStyles.border}
+                    shadow-lg ${buttonStyles.shadow} ${buttonStyles.hoverShadow}
+                  `}
                 >
                   <Icon className="w-5 h-5 sm:w-4 sm:h-4 flex-shrink-0" aria-hidden="true" />
                   <span className="text-center">{link.text}</span>
