@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import logoFetuccine from "@/assets/logo-fetuccine.png";
 import pastaBackground from "@/assets/pasta-background.jpg";
-import { ExternalLink, MapPin, Instagram, MessageCircle, UtensilsCrossed, Tag } from "lucide-react";
+import { ExternalLink, MapPin, Instagram, MessageCircle, UtensilsCrossed, Tag, Download, X, Smartphone } from "lucide-react";
 import { toast } from "sonner";
 
 const Index = () => {
   const [hoveredButton, setHoveredButton] = useState<number | null>(null);
   const [showCoupon, setShowCoupon] = useState(false);
+  const [showInstallPrompt, setShowInstallPrompt] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const clientNames = [
     "Maria Silva", "João Santos", "Ana Costa", "Pedro Oliveira", "Juliana Alves",
@@ -38,8 +41,42 @@ const Index = () => {
     });
   };
 
+  // Função para instalar PWA
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`PWA install prompt outcome: ${outcome}`);
+      setDeferredPrompt(null);
+      setShowInstallPrompt(false);
+    }
+  };
+
+  // Função para detectar se é mobile
+  const checkIsMobile = () => {
+    const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+    return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+  };
+
   useEffect(() => {
     document.body.style.fontFamily = "'Montserrat', sans-serif";
+    
+    // Detectar se é mobile
+    setIsMobile(checkIsMobile());
+    
+    // Configurar PWA install prompt
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      // Mostrar prompt após 5 segundos se for mobile
+      if (checkIsMobile()) {
+        setTimeout(() => {
+          setShowInstallPrompt(true);
+        }, 5000);
+      }
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     
     // Primeira notificação após 3-5 segundos
     const initialDelay = setTimeout(() => {
@@ -52,6 +89,7 @@ const Index = () => {
     }, 20000);
 
     return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       clearTimeout(initialDelay);
       clearInterval(interval);
     };
@@ -109,32 +147,67 @@ const Index = () => {
         />
       </div>
 
+      {/* PWA Install Prompt */}
+      {showInstallPrompt && (
+        <div className="fixed top-4 left-4 right-4 z-50 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 animate-slide-down">
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                <Smartphone className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="font-montserrat font-semibold text-gray-900 text-sm">
+                  Instalar App
+                </h3>
+                <p className="font-montserrat text-xs text-gray-600">
+                  Acesse mais rápido pelo celular
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleInstallClick}
+                className="px-3 py-1.5 bg-gradient-to-r from-primary to-secondary text-white text-xs font-montserrat font-medium rounded-lg hover:scale-105 transition-transform"
+              >
+                Instalar
+              </button>
+              <button
+                onClick={() => setShowInstallPrompt(false)}
+                className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <X className="w-4 h-4 text-gray-500" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Content Container */}
-      <section className="relative z-10 w-full max-w-md mx-auto px-4 py-12 flex flex-col items-center justify-center animate-fade-in">
+      <section className="relative z-10 w-full max-w-md mx-auto px-4 py-8 sm:py-12 flex flex-col items-center justify-center animate-fade-in">
         {/* Logo */}
-        <header className="mb-6">
+        <header className="mb-4 sm:mb-6">
           <div className="relative">
             <img 
               src={logoFetuccine} 
               alt="Logo Fetuccine Eldorado - A sua casa de massas"
-              className="w-32 md:w-40 h-auto rounded-2xl"
+              className="w-28 sm:w-32 md:w-40 h-auto rounded-2xl shadow-lg"
               loading="eager"
             />
           </div>
         </header>
 
         {/* Title and Description */}
-        <div className="text-center mb-6 space-y-2">
-          <h1 className="font-playfair text-3xl md:text-4xl font-bold text-primary drop-shadow-lg tracking-tight">
+        <div className="text-center mb-6 sm:mb-8 space-y-2">
+          <h1 className="font-playfair text-2xl sm:text-3xl md:text-4xl font-bold text-primary drop-shadow-lg tracking-tight">
             Fetuccine Eldorado
           </h1>
-          <p className="font-montserrat text-base md:text-lg text-white font-light drop-shadow-md">
+          <p className="font-montserrat text-sm sm:text-base md:text-lg text-white font-light drop-shadow-md">
             Delícias italianas ao seu alcance
           </p>
         </div>
 
         {/* Link Buttons */}
-        <nav className="w-full space-y-3 mb-8" aria-label="Links principais">
+        <nav className="w-full space-y-3 sm:space-y-4 mb-6 sm:mb-8" aria-label="Links principais">
           {links.map((link, index) => {
             const Icon = link.icon;
             
@@ -154,17 +227,20 @@ const Index = () => {
               >
                 <div
                   className="
-                    flex items-center justify-center gap-2
-                    px-6 py-3 rounded-lg
-                    font-montserrat text-white font-medium text-sm md:text-base
-                    bg-white/10
-                    hover:bg-white/20
+                    flex items-center justify-center gap-3
+                    px-4 sm:px-6 py-4 sm:py-3 rounded-xl
+                    font-montserrat text-white font-medium text-sm sm:text-base
+                    bg-white/10 backdrop-blur-sm
+                    hover:bg-white/20 active:bg-white/25
                     transition-all duration-200
-                    hover:scale-[1.02]
+                    hover:scale-[1.02] active:scale-[0.98]
+                    touch-manipulation
+                    border border-white/10
+                    shadow-lg hover:shadow-xl
                   "
                 >
-                  <Icon className="w-4 h-4" aria-hidden="true" />
-                  <span>{link.text}</span>
+                  <Icon className="w-5 h-5 sm:w-4 sm:h-4 flex-shrink-0" aria-hidden="true" />
+                  <span className="text-center">{link.text}</span>
                 </div>
               </a>
             );
@@ -172,8 +248,8 @@ const Index = () => {
         </nav>
 
         {/* Footer */}
-        <footer className="text-center mt-auto pt-8">
-          <p className="text-sm md:text-base text-gray-300 drop-shadow-md">
+        <footer className="text-center mt-auto pt-6 sm:pt-8">
+          <p className="text-xs sm:text-sm md:text-base text-gray-300 drop-shadow-md">
             Copyright 2025 - Fetuccine Eldorado
           </p>
         </footer>
@@ -186,26 +262,27 @@ const Index = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="
-            fixed bottom-4 right-4 md:bottom-6 md:right-6
-            z-50
+            fixed bottom-4 right-4 sm:bottom-6 sm:right-6
+            z-40
             flex flex-col items-center justify-center
-            w-20 h-20 md:w-24 md:h-24
+            w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24
             bg-gradient-to-br from-primary to-secondary
             rounded-full
             shadow-lg hover:shadow-2xl
             transition-all duration-300
-            hover:scale-110
+            hover:scale-110 active:scale-95
             cursor-pointer
             animate-[slide-in-right_0.5s_ease-out,pulse_2s_ease-in-out_infinite]
+            touch-manipulation
           "
           aria-label="Cupom de 10% de desconto - Clique para acessar o cardápio"
         >
-          <Tag className="w-5 h-5 md:w-6 md:h-6 text-white mb-1" />
+          <Tag className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white mb-0.5 sm:mb-1" />
           <div className="flex flex-col items-center">
-            <span className="text-[10px] md:text-xs text-white/90 font-montserrat font-medium leading-tight">
+            <span className="text-[8px] sm:text-[10px] md:text-xs text-white/90 font-montserrat font-medium leading-tight">
               CUPOM
             </span>
-            <span className="text-sm md:text-base text-white font-montserrat font-bold leading-tight">
+            <span className="text-xs sm:text-sm md:text-base text-white font-montserrat font-bold leading-tight">
               10% OFF
             </span>
           </div>
