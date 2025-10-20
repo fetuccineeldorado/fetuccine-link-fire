@@ -262,7 +262,7 @@ const Index = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="
-            fixed bottom-8 right-4 sm:bottom-12 sm:right-6
+            fixed bottom-4 right-4 sm:bottom-6 sm:right-6
             z-40
             flex flex-col items-center justify-center
             w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24
