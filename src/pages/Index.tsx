@@ -113,7 +113,7 @@ const Index = () => {
     {
       icon: MessageCircle,
       text: "Peça pelo nosso WhatsApp",
-      url: "https://w.app/fetuccine",
+      url: "https://wa.me/556292268934?text=Ol%C3%A1%2C%20quero%20fazer%20um%20pedido%21",
       ariaLabel: "Fazer pedido via WhatsApp"
     },
     {
