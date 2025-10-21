@@ -303,7 +303,7 @@ const Index = () => {
       {/* Floating Coupon Alert */}
       {showCoupon && (
         <a
-          href="https://growmoneydigital.com.br/fetuccine/cardapio"
+          href="https://pedido.anota.ai/loja/fetuccine-eldorado?coupon=FETU10&f=csa"
           target="_blank"
           rel="noopener noreferrer"
           className="
