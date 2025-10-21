@@ -293,7 +293,7 @@ const Index = () => {
         </nav>
 
         {/* Footer */}
-        <footer className="text-center mt-auto pt-6 sm:pt-8">
+        <footer className="text-left mt-auto pt-6 sm:pt-8">
           <p className="text-xs sm:text-sm md:text-base text-gray-300 drop-shadow-md">
             Copyright 2025 - Fetuccine Eldorado
           </p>
